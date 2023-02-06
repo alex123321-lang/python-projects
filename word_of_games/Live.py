@@ -1,0 +1,56 @@
+import sys
+
+from MemoryGame import MemoryGame
+from GuessGame import GuessGame
+from CurrencyRouletteGame import CurrencyRouletteGame
+
+number_to_game = {1: MemoryGame, 2: GuessGame, 3: CurrencyRouletteGame}
+
+
+def welcome(name):
+    print(f"Hello {name} and welcome to the World of Games (WoG).")
+    print("Here you can find many cool games to play.")
+
+
+def load_game():
+    while True:
+        print("""Please choose a game to play:
+                      1. Memory Game - a sequence of numbers will appear for 1 second and you have to
+                      guess it back
+                      2. Guess Game - guess a number and see if you chose like the computer
+                      3. Currency Roulette - try and guess the value of a random amount of USD in ILS""")
+        game = input()
+        if game == 'q':
+            print("Good by!!!")
+            return
+        while not game.isdigit() or not 0 < int(game) <= 3:
+            print("Wrong choice, please select correct option or press q to quit")
+            game = input()
+            if game == 'q':
+                print("Good by!!!")
+                return
+        game = int(game)
+        print("Please choose game difficulty from 1 to 5:")
+        level = input()
+        while not level.isdigit() or not 0 < int(level) <= 5:
+            print("Wrong choice, please select correct option or press q to quit")
+            level = input()
+            if level == 'q':
+                print("Good by!!!")
+                return
+        level = int(level)
+        game_class = number_to_game[game]
+        game_instance = game_class(difficulty=level)
+        if game_instance.play():
+            print("****************************************************\n"
+                  "WINNER!!! The answer is correct\n"
+                  "****************************************************\n\n")
+        else:
+            print("****************************************************\n"
+                  "Wrong answer:( Try Again.\n"
+                  "****************************************************\n\n")
+
+
+def get_user_name():
+    user_name = input("Please, insert your name\n")
+    return user_name
